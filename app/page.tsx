@@ -10,6 +10,10 @@ const hoursPerWeekOptions = [2, 4, 6, 8, 10, 15];
 
 const restrictionGroups = [
   {
+    group: 'Common Combinations',
+    codes: ['2A/1C'],
+  },
+  {
     group: 'Group 1: Cranes',
     codes: ['1A', '1B', '1C', '1D', '1E'],
   },

@@ -310,7 +310,7 @@ export const curriculum: LicenseRestriction[] = [
               {
                 question: 'During pre-shift inspection, you notice a hydraulic hose has a small bulge but no visible leak. What should you do?',
                 options: [
-                  'Continue operating; it's just cosmetic',
+                  'Continue operating; it\'s just cosmetic',
                   'Document the defect and tag the machine "Do Not Operate"',
                   'Apply sealant and continue operating',
                   'Monitor it and replace at the end of the week',
@@ -482,7 +482,7 @@ export const curriculum: LicenseRestriction[] = [
                   'Only if you plan to dig within 10 feet',
                   'Always, before any excavation within 100 feet',
                   'Only if the pole appears to be in your swing radius',
-                  'Never; it's the site supervisor\'s job',
+                  'Never; it\'s the site supervisor\'s job',
                 ],
                 correctIndex: 1,
                 explanation: 'Call Before You Dig rules require locating utilities before any excavation. The safe rule is: always call before starting any work that may disturb the ground.',
