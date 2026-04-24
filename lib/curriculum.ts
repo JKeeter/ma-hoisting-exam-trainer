@@ -391,6 +391,12 @@ export const curriculum: LicenseRestriction[] = [
                 type: 'regulation',
                 required: true,
               },
+              {
+                label: 'SAE J1307 Hand Signals — Quick Reference Guide',
+                url: '/hand-signals',
+                type: 'reference',
+                required: true,
+              },
             ],
             selfCheck: [
               {
@@ -1104,10 +1110,10 @@ export const curriculum: LicenseRestriction[] = [
                 required: true,
               },
               {
-                label: 'SAE J1307-2023 — Excavator & Backhoe Hand Signals',
-                url: 'https://www.sae.org/standards/content/j1307/',
+                label: 'SAE J1307 Hand Signals — Quick Reference Guide',
+                url: '/hand-signals',
                 type: 'reference',
-                required: false,
+                required: true,
               },
             ],
             selfCheck: [
@@ -1619,6 +1625,12 @@ export const curriculum: LicenseRestriction[] = [
                 label: '230 CMR 6.00 — Hand signal requirements',
                 url: 'https://www.mass.gov/regulations/230-CMR-600-hoisting-machinery',
                 type: 'regulation',
+                required: true,
+              },
+              {
+                label: 'SAE J1307 Hand Signals — Quick Reference Guide',
+                url: '/hand-signals',
+                type: 'reference',
                 required: true,
               },
               {

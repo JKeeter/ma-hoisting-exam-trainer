@@ -164,11 +164,11 @@ describe('curriculum – 2A/1C fully populated', () => {
     });
   });
 
-  it('all required resources have valid URLs', () => {
+  it('all required resources have valid URLs or internal paths', () => {
     restriction.modules.flatMap(m => m.sessions).flatMap(s => s.resources)
       .filter(r => r.required)
       .forEach(r => {
-        expect(r.url).toMatch(/^https?:\/\//);
+        expect(r.url).toMatch(/^https?:\/\/|^\//);
       });
   });
 

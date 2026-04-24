@@ -160,12 +160,14 @@ export default function SessionDetailPage() {
           <section className="space-y-4">
             <h2 className="text-xl font-bold text-slate-900">Resources</h2>
             <div className="grid gap-3">
-              {session.resources.map((resource, idx) => (
+              {session.resources.map((resource, idx) => {
+                const isInternal = resource.url.startsWith('/');
+                return (
                 <a
                   key={idx}
                   href={resource.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  target={isInternal ? '_self' : '_blank'}
+                  rel={isInternal ? undefined : 'noopener noreferrer'}
                   className="p-4 card border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-colors flex justify-between items-start gap-3 group"
                 >
                   <div>
@@ -179,9 +181,13 @@ export default function SessionDetailPage() {
                       </span>
                     )}
                   </div>
-                  <ExternalLink className="text-slate-400 group-hover:text-slate-600 flex-shrink-0 mt-1" size={18} />
+                  {isInternal
+                    ? <span className="text-slate-400 group-hover:text-slate-600 flex-shrink-0 mt-1 text-sm font-medium">View →</span>
+                    : <ExternalLink className="text-slate-400 group-hover:text-slate-600 flex-shrink-0 mt-1" size={18} />
+                  }
                 </a>
-              ))}
+                );
+              })}
             </div>
           </section>
         )}
