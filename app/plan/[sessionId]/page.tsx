@@ -115,31 +115,45 @@ export default function SessionDetailPage() {
           </p>
         </div>
 
+        {/* Content coming soon for stub sessions */}
+        {session.learningObjectives.length === 0 && session.topics.length === 0 && session.resources.length === 0 && session.selfCheck.length === 0 && (
+          <div className="p-6 bg-slate-50 border border-slate-200 rounded-lg text-center">
+            <p className="text-slate-600 font-semibold">Content coming soon</p>
+            <p className="text-slate-500 text-sm mt-1">
+              Detailed content for this session is being developed. Check back for learning objectives, topics, resources, and practice questions.
+            </p>
+          </div>
+        )}
+
         {/* Learning Objectives */}
-        <section className="space-y-4">
-          <h2 className="text-xl font-bold text-slate-900">Learning Objectives</h2>
-          <ul className="space-y-2">
-            {session.learningObjectives.map((obj, idx) => (
-              <li key={idx} className="flex gap-3 text-slate-700">
-                <span className="text-safety font-bold">•</span>
-                <span>{obj}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
+        {session.learningObjectives.length > 0 && (
+          <section className="space-y-4">
+            <h2 className="text-xl font-bold text-slate-900">Learning Objectives</h2>
+            <ul className="space-y-2">
+              {session.learningObjectives.map((obj, idx) => (
+                <li key={idx} className="flex gap-3 text-slate-700">
+                  <span className="text-safety font-bold">•</span>
+                  <span>{obj}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         {/* Topics */}
-        <section className="space-y-4">
-          <h2 className="text-xl font-bold text-slate-900">Topics Covered</h2>
-          <ul className="space-y-2">
-            {session.topics.map((topic, idx) => (
-              <li key={idx} className="flex gap-3 text-slate-700">
-                <span className="text-slate-400">•</span>
-                <span>{topic}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
+        {session.topics.length > 0 && (
+          <section className="space-y-4">
+            <h2 className="text-xl font-bold text-slate-900">Topics Covered</h2>
+            <ul className="space-y-2">
+              {session.topics.map((topic, idx) => (
+                <li key={idx} className="flex gap-3 text-slate-700">
+                  <span className="text-slate-400">•</span>
+                  <span>{topic}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         {/* Resources */}
         {session.resources.length > 0 && (
