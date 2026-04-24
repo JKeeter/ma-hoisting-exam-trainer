@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-feature-settings: "rlig" 1 "calt" 1;
+}
+
+@layer components {
+  .button-primary {
+    @apply bg-safety text-slate-900 hover:bg-yellow-500 font-semibold px-4 py-2 rounded-lg transition-colors;
+  }
+
+  .button-secondary {
+    @apply bg-slate-200 text-slate-900 hover:bg-slate-300 font-semibold px-4 py-2 rounded-lg transition-colors;
+  }
+
+  .content-max {
+    @apply max-w-2xl;
+  }
+
+  .card {
+    @apply bg-white border border-slate-200 rounded-lg shadow-sm;
+  }
+}
