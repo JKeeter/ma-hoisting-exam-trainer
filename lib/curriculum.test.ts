@@ -65,6 +65,48 @@ describe('curriculum – structure', () => {
   });
 });
 
+describe('curriculum – 2A fully populated', () => {
+  const restriction = curriculum.find(r => r.code === '2A')!;
+
+  it('2A exists', () => {
+    expect(restriction).toBeDefined();
+  });
+
+  it('has exactly 4 modules', () => {
+    expect(restriction.modules.length).toBe(4);
+  });
+
+  it('has exactly 12 sessions total', () => {
+    const sessions = restriction.modules.flatMap(m => m.sessions);
+    expect(sessions.length).toBe(12);
+  });
+
+  it('all sessions have learningObjectives', () => {
+    restriction.modules.flatMap(m => m.sessions).forEach(s => {
+      expect(s.learningObjectives.length).toBeGreaterThan(0);
+    });
+  });
+
+  it('all sessions have topics', () => {
+    restriction.modules.flatMap(m => m.sessions).forEach(s => {
+      expect(s.topics.length).toBeGreaterThan(0);
+    });
+  });
+
+  it('all sessions have at least one selfCheck question', () => {
+    restriction.modules.flatMap(m => m.sessions).forEach(s => {
+      expect(s.selfCheck.length).toBeGreaterThan(0);
+    });
+  });
+
+  it('all selfCheck correctIndex values are in range', () => {
+    restriction.modules.flatMap(m => m.sessions).flatMap(s => s.selfCheck).forEach(q => {
+      expect(q.correctIndex).toBeGreaterThanOrEqual(0);
+      expect(q.correctIndex).toBeLessThan(q.options.length);
+    });
+  });
+});
+
 describe('curriculum – 2A/1C fully populated', () => {
   const restriction = curriculum.find(r => r.code === '2A/1C')!;
 
