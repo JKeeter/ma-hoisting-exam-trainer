@@ -172,8 +172,8 @@ export const curriculum: LicenseRestriction[] = [
             ],
             resources: [
               {
-                label: 'OSHA – Excavator Safety Bulletin',
-                url: 'https://www.osha.gov/sites/default/files/publications/osha3681.pdf',
+                label: 'OSHA SHIB — Hazards of Quick Couplers on Hydraulic Excavators',
+                url: 'https://www.osha.gov/dts/shib/shib072205a.html',
                 type: 'osha',
                 required: false,
               },
@@ -1353,8 +1353,8 @@ export const curriculum: LicenseRestriction[] = [
             ],
             resources: [
               {
-                label: 'OSHA Excavator Safety Bulletin',
-                url: 'https://www.osha.gov/sites/default/files/publications/osha3681.pdf',
+                label: 'OSHA SHIB — Hazards of Quick Couplers on Hydraulic Excavators',
+                url: 'https://www.osha.gov/dts/shib/shib072205a.html',
                 type: 'osha',
                 required: false,
               },
