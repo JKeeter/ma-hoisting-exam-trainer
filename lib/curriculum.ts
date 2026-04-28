@@ -1037,6 +1037,13 @@ export const curriculum: LicenseRestriction[] = [
             ],
             resources: [
               {
+                label: 'MGL Chapter 146 — Licensing Requirements Reference',
+                url: '/reference/2a-m1-s1',
+                type: 'reference',
+                required: true,
+              },
+
+              {
                 label: 'MGL Chapter 146 § 53 — Licensing requirement',
                 url: 'https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXX/Chapter146/Section53',
                 type: 'regulation',
@@ -1132,6 +1139,13 @@ export const curriculum: LicenseRestriction[] = [
               'Differences between 230 CMR and 520 CMR references',
             ],
             resources: [
+              {
+                label: '230 CMR 6.00 — Operating Rules Reference',
+                url: '/reference/2a-m1-s2',
+                type: 'reference',
+                required: true,
+              },
+
               {
                 label: '230 CMR 6.00 — Hoisting Machinery (mass.gov)',
                 url: 'https://www.mass.gov/regulations/230-CMR-600-hoisting-machinery',
@@ -1242,6 +1256,13 @@ export const curriculum: LicenseRestriction[] = [
               'Employer liability when using unlicensed operators',
             ],
             resources: [
+              {
+                label: 'MGL §§ 64–67 — Safety, Penalties & Renewal Reference',
+                url: '/reference/2a-m1-s3',
+                type: 'reference',
+                required: true,
+              },
+
               {
                 label: 'MGL Chapter 146 §§ 64–67',
                 url: 'https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXX/Chapter146',
@@ -1478,6 +1499,13 @@ export const curriculum: LicenseRestriction[] = [
             ],
             resources: [
               {
+                label: 'Skid Steer Systems — ROPS/FOPS & Hazards Reference',
+                url: '/reference/2a-m2-s2',
+                type: 'reference',
+                required: true,
+              },
+
+              {
                 label: '29 CFR 1926.1001 — ROPS for material handling equipment',
                 url: 'https://www.osha.gov/laws-regs/regulations/standardnumber/1926/1926.1001',
                 type: 'osha',
@@ -1599,6 +1627,13 @@ export const curriculum: LicenseRestriction[] = [
               'Hose removal-from-service criteria: bulges, cracks, abrasion through outer cover, leaking fittings',
             ],
             resources: [
+              {
+                label: 'Hydraulic Systems — Safety & Inspection Reference',
+                url: '/reference/2a-m2-s3',
+                type: 'reference',
+                required: true,
+              },
+
               {
                 label: '29 CFR 1926.602 — Material handling & earthmoving equipment',
                 url: 'https://www.osha.gov/laws-regs/regulations/standardnumber/1926/1926.602',
@@ -1722,6 +1757,13 @@ export const curriculum: LicenseRestriction[] = [
               '  — Missing or discharged fire extinguisher',
             ],
             resources: [
+              {
+                label: 'Pre-Shift Inspection Reference & Checklist',
+                url: '/reference/2a-m3-s1',
+                type: 'reference',
+                required: true,
+              },
+
               {
                 label: '29 CFR 1926.600 — Equipment safety general',
                 url: 'https://www.osha.gov/laws-regs/regulations/standardnumber/1926/1926.600',
@@ -1865,6 +1907,13 @@ export const curriculum: LicenseRestriction[] = [
               'Water accumulation: must be controlled; submerged soils default to Type C',
             ],
             resources: [
+              {
+                label: 'OSHA Subpart P — Excavation Safety Reference',
+                url: '/reference/2a-m3-s2',
+                type: 'reference',
+                required: true,
+              },
+
               {
                 label: '29 CFR 1926.650 — Excavations: scope and definitions',
                 url: 'https://www.osha.gov/laws-regs/regulations/standardnumber/1926/1926.650',
@@ -2015,6 +2064,13 @@ export const curriculum: LicenseRestriction[] = [
             ],
             resources: [
               {
+                label: 'Hand Signals, Site Safety & Hazards Reference',
+                url: '/reference/2a-m3-s3',
+                type: 'reference',
+                required: true,
+              },
+
+              {
                 label: '230 CMR 6.00 — Hand signal requirements',
                 url: 'https://www.mass.gov/regulations/230-CMR-600-hoisting-machinery',
                 type: 'regulation',
@@ -2133,6 +2189,13 @@ export const curriculum: LicenseRestriction[] = [
             ],
             resources: [
               {
+                label: '29 CFR 1926.602 — Equipment Operation Reference',
+                url: '/reference/2a-m4-s1',
+                type: 'reference',
+                required: true,
+              },
+
+              {
                 label: '29 CFR 1926.602 — Material handling & earthmoving equipment',
                 url: 'https://www.osha.gov/laws-regs/regulations/standardnumber/1926/1926.602',
                 type: 'osha',
@@ -2241,6 +2304,13 @@ export const curriculum: LicenseRestriction[] = [
               'Common trick questions: "and" vs. "or" conditions; "always" vs. "unless"',
             ],
             resources: [
+              {
+                label: 'Practice Exam 1 — Critical Numbers & Strategy Reference',
+                url: '/reference/2a-m4-s2',
+                type: 'reference',
+                required: true,
+              },
+
               {
                 label: 'MA OPSI — Hoisting exam content overview',
                 url: 'https://www.mass.gov/hoisting-licensing-and-exams',
@@ -2351,6 +2421,13 @@ export const curriculum: LicenseRestriction[] = [
               '  — Operations: hand signals, swing radius, trench proximity',
             ],
             resources: [
+              {
+                label: 'Practice Exam 2 & Exam Day Prep Reference',
+                url: '/reference/2a-m4-s3',
+                type: 'reference',
+                required: true,
+              },
+
               {
                 label: 'Cranes101 — 2A License Exam Prep',
                 url: 'https://cranes101.com/ma-hoisting-license-2a-all-excavators/',
