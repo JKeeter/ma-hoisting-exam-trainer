@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { ChevronDown, ChevronUp, AlertTriangle, Search, Zap } from 'lucide-react';
 
 export type ReferenceItem = {
@@ -93,6 +93,7 @@ export default function ReferencePage({
   quickFacts,
   defaultOpenSections = [],
 }: ReferencePageProps) {
+  const router = useRouter();
   const [openSections, setOpenSections] = useState<Set<string>>(new Set(defaultOpenSections));
   const [openItems, setOpenItems] = useState<Set<string>>(new Set());
   const [query, setQuery] = useState('');
@@ -126,9 +127,9 @@ export default function ReferencePage({
   return (
     <main className="px-4 py-8 md:py-12 max-w-3xl mx-auto space-y-6">
       <div>
-        <Link href="javascript:history.back()" className="text-safety hover:text-yellow-500 font-semibold text-sm">
+        <button onClick={() => router.back()} className="text-safety hover:text-yellow-500 font-semibold text-sm">
           ← Back
-        </Link>
+        </button>
       </div>
 
       <div className="space-y-1">
@@ -252,7 +253,7 @@ export default function ReferencePage({
       )}
 
       <div className="text-center pt-4">
-        <Link href="javascript:history.back()" className="button-secondary inline-block">← Return to session</Link>
+        <button onClick={() => router.back()} className="button-secondary">← Return to session</button>
       </div>
     </main>
   );

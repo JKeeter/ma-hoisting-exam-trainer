@@ -1,4 +1,5 @@
-import Link from 'next/link';
+'use client';
+import { useRouter } from 'next/navigation';
 
 type Signal = {
   name: string;
@@ -83,13 +84,14 @@ const signals: Signal[] = [
 ];
 
 export default function HandSignalsPage() {
+  const router = useRouter();
   return (
     <main className="px-4 py-8 md:py-12">
       <div className="max-w-2xl mx-auto space-y-8">
         <div>
-          <Link href="javascript:history.back()" className="text-safety hover:text-yellow-500 font-semibold">
+          <button onClick={() => router.back()} className="text-safety hover:text-yellow-500 font-semibold">
             ← Back
-          </Link>
+          </button>
         </div>
 
         <div className="space-y-2">
@@ -160,12 +162,12 @@ export default function HandSignalsPage() {
         </div>
 
         <div className="text-center">
-          <Link
-            href="javascript:history.back()"
-            className="button-secondary inline-block"
+          <button
+            onClick={() => router.back()}
+            className="button-secondary"
           >
             ← Return to session
-          </Link>
+          </button>
         </div>
       </div>
     </main>
