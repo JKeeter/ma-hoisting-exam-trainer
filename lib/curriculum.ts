@@ -31,6 +31,13 @@ export const curriculum: LicenseRestriction[] = [
             ],
             resources: [
               {
+                label: 'MGL Chapter 146 — Licensing Requirements Reference',
+                url: '/reference/2a1c-m1-s1',
+                type: 'reference',
+                required: true,
+              },
+
+              {
                 label: 'MGL c. 146 §§ 53–54A',
                 url: 'https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXX/Chapter146',
                 type: 'regulation',
@@ -87,6 +94,13 @@ export const curriculum: LicenseRestriction[] = [
             ],
             resources: [
               {
+                label: '230 CMR 6.00 & MGL §§64-67 Operating Rules Reference',
+                url: '/reference/2a1c-m1-s2',
+                type: 'reference',
+                required: true,
+              },
+
+              {
                 label: '230 CMR 6.00 – Hoisting Equipment Safety',
                 url: 'https://www.mass.gov/info-details/230-cmr-6-hoisting-equipment-and-fueling-equipment',
                 type: 'regulation',
@@ -124,6 +138,13 @@ export const curriculum: LicenseRestriction[] = [
               'Reinstatement after lapse',
             ],
             resources: [
+              {
+                label: 'Renewal, Penalties & Licensing Compliance Reference',
+                url: '/reference/2a1c-m1-s3',
+                type: 'reference',
+                required: true,
+              },
+
               {
                 label: 'OPSI Hoisting License Renewal',
                 url: 'https://www.mass.gov/how-to/renew-a-hoisting-license',
@@ -172,6 +193,13 @@ export const curriculum: LicenseRestriction[] = [
             ],
             resources: [
               {
+                label: 'Excavator & Track Hoe — Component Reference',
+                url: '/reference/2a1c-m2-s1',
+                type: 'reference',
+                required: true,
+              },
+
+              {
                 label: 'Excavator Component Reference — Anatomy, Hydraulics & Inspection',
                 url: '/reference/excavator-anatomy',
                 type: 'reference',
@@ -210,6 +238,13 @@ export const curriculum: LicenseRestriction[] = [
               'Load distribution and stability triangle',
             ],
             resources: [
+              {
+                label: 'Loader & Backhoe — Anatomy & Controls Reference',
+                url: '/reference/2a1c-m2-s2',
+                type: 'reference',
+                required: true,
+              },
+
               {
                 label: 'Caterpillar Loader Safety Guide',
                 url: 'https://www.cat.com',
@@ -250,6 +285,13 @@ export const curriculum: LicenseRestriction[] = [
               'Common failure modes (cavitation, overheating)',
             ],
             resources: [
+              {
+                label: 'Hydraulic Systems — Safety & Inspection Reference',
+                url: '/reference/2a1c-m2-s3',
+                type: 'reference',
+                required: true,
+              },
+
               {
                 label: 'Parker Hydraulics Handbook',
                 url: 'https://www.parker.com',
@@ -300,6 +342,13 @@ export const curriculum: LicenseRestriction[] = [
             ],
             resources: [
               {
+                label: 'Pre-Shift Inspection Reference & Checklist',
+                url: '/reference/2a1c-m3-s1',
+                type: 'reference',
+                required: true,
+              },
+
+              {
                 label: '29 CFR 1926.550 – Cranes and Derricks',
                 url: 'https://www.osha.gov/laws-regs/regulations/1910/1926/1926.550',
                 type: 'regulation',
@@ -340,6 +389,13 @@ export const curriculum: LicenseRestriction[] = [
               'Communication via hand signals and two-way radio',
             ],
             resources: [
+              {
+                label: 'Operating Hazards & Safe Procedures Reference',
+                url: '/reference/2a1c-m3-s2',
+                type: 'reference',
+                required: true,
+              },
+
               {
                 label: 'OSHA Subpart P – Excavations',
                 url: 'https://www.osha.gov/laws-regs/regulations/1910/1926/1926.650',
@@ -385,6 +441,13 @@ export const curriculum: LicenseRestriction[] = [
               'Emergency hand signals (STOP)',
             ],
             resources: [
+              {
+                label: 'Hand Signals & Communication Reference',
+                url: '/reference/2a1c-m3-s3',
+                type: 'reference',
+                required: true,
+              },
+
               {
                 label: '230 CMR 6.00 §6.20 – Hand Signals',
                 url: 'https://www.mass.gov/info-details/230-cmr-6-hoisting-equipment-and-fueling-equipment',
@@ -439,6 +502,13 @@ export const curriculum: LicenseRestriction[] = [
             ],
             resources: [
               {
+                label: 'OSHA 29 CFR 1926 Highlights Reference',
+                url: '/reference/2a1c-m4-s1',
+                type: 'reference',
+                required: true,
+              },
+
+              {
                 label: '29 CFR 1926 Subpart R – Steel Erection',
                 url: 'https://www.osha.gov/laws-regs/regulations/1910/1926/1926.500',
                 type: 'regulation',
@@ -474,6 +544,13 @@ export const curriculum: LicenseRestriction[] = [
               'Identifying distractor answers',
             ],
             resources: [
+              {
+                label: 'Practice Exam 1 — Critical Numbers & Strategy Reference',
+                url: '/reference/2a1c-m4-s2',
+                type: 'reference',
+                required: true,
+              },
+
               {
                 label: 'MA OPSI Official Study Guide',
                 url: 'https://www.mass.gov/info-details/opsi-publications-and-forms',
@@ -533,6 +610,13 @@ export const curriculum: LicenseRestriction[] = [
               'Exam day logistics: what to bring, testing center protocols',
             ],
             resources: [
+              {
+                label: 'Practice Exam 2 & Exam Day Prep Reference',
+                url: '/reference/2a1c-m4-s3',
+                type: 'reference',
+                required: true,
+              },
+
               {
                 label: 'OPSI Hoisting Exam Information',
                 url: 'https://www.mass.gov/how-to/apply-for-a-hoisting-license',
