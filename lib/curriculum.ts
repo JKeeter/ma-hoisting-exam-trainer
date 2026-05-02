@@ -1596,9 +1596,9 @@ export const curriculum: LicenseRestriction[] = [
                 required: true,
               },
               {
-                label: 'NIOSH — Preventing injuries from skid steer loaders',
-                url: 'https://www.cdc.gov/niosh/docs/98-117/default.html',
-                type: 'reference',
+                label: 'OSHA SHIB — Skid Steer Loader Safety Hazards (PDF)',
+                url: 'https://www.osha.gov/sites/default/files/publications/SHIB011209.pdf',
+                type: 'osha',
                 required: false,
               },
               {
