@@ -35,3 +35,10 @@ yarn-error.log*
 *.swp
 *.swo
 *~
+
+# build artifacts
+*.tsbuildinfo
+infrastructure/cdk.out/
+
+# claude code local state
+.claude/

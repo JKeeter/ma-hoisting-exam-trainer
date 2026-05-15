@@ -1,8 +1,14 @@
-'use client';
+/**
+ * ReferencePage — server component.
+ *
+ * All section and item bodies are rendered into the static HTML using native
+ * <details>/<summary> elements so the content is crawlable by search engines
+ * without any JavaScript.  The search box is a separate client island
+ * (ReferenceSearch) that hides/shows sections dynamically when a query is typed.
+ */
 
-import { useState, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
-import { ChevronDown, ChevronUp, AlertTriangle, Search, Zap } from 'lucide-react';
+import { Zap, AlertTriangle } from 'lucide-react';
+import BackButton from '@/components/BackButton';
 
 export type ReferenceItem = {
   heading: string;
@@ -33,19 +39,39 @@ export type ReferencePageProps = {
   defaultOpenSections?: string[];
 };
 
-// Renders bold, italic, bullets, and checkboxes from a markdown-lite body string
+// ─── Markdown-lite renderer (runs server-side) ──────────────────────────────
+
+function mdInline(s: string) {
+  return s
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/`(.*?)`/g, '<code class="bg-slate-100 px-1 rounded text-xs font-mono">$1</code>');
+}
+
 function renderBody(text: string) {
   return text.split('\n').map((line, i) => {
     const key = i;
 
     if (line.startsWith('### ')) {
-      return <p key={key} className="font-bold text-slate-800 text-sm mt-4 mb-1 uppercase tracking-wide">{line.slice(4)}</p>;
+      return (
+        <p key={key} className="font-bold text-slate-800 text-sm mt-4 mb-1 uppercase tracking-wide">
+          {line.slice(4)}
+        </p>
+      );
     }
     if (line.startsWith('## ')) {
-      return <p key={key} className="font-bold text-slate-900 mt-4 mb-1">{line.slice(3)}</p>;
+      return (
+        <p key={key} className="font-bold text-slate-900 mt-4 mb-1">
+          {line.slice(3)}
+        </p>
+      );
     }
     if (/^\*\*.*\*\*$/.test(line.trim())) {
-      return <p key={key} className="font-bold text-slate-900 mt-3 mb-1">{line.replace(/\*\*/g, '')}</p>;
+      return (
+        <p key={key} className="font-bold text-slate-900 mt-3 mb-1">
+          {line.replace(/\*\*/g, '')}
+        </p>
+      );
     }
     if (line.startsWith('• ') || line.startsWith('- ')) {
       const raw = line.replace(/^[•\-] /, '');
@@ -74,16 +100,17 @@ function renderBody(text: string) {
       );
     }
     if (line === '' || line === '\n') return <div key={key} className="h-2" />;
-    return <p key={key} className="text-slate-700 text-sm leading-relaxed" dangerouslySetInnerHTML={{ __html: mdInline(line) }} />;
+    return (
+      <p
+        key={key}
+        className="text-slate-700 text-sm leading-relaxed"
+        dangerouslySetInnerHTML={{ __html: mdInline(line) }}
+      />
+    );
   });
 }
 
-function mdInline(s: string) {
-  return s
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    .replace(/`(.*?)`/g, '<code class="bg-slate-100 px-1 rounded text-xs font-mono">$1</code>');
-}
+// ─── Server component ────────────────────────────────────────────────────────
 
 export default function ReferencePage({
   title,
@@ -93,43 +120,10 @@ export default function ReferencePage({
   quickFacts,
   defaultOpenSections = [],
 }: ReferencePageProps) {
-  const router = useRouter();
-  const [openSections, setOpenSections] = useState<Set<string>>(new Set(defaultOpenSections));
-  const [openItems, setOpenItems] = useState<Set<string>>(new Set());
-  const [query, setQuery] = useState('');
-
-  const filtered = useMemo(() => {
-    if (!query.trim()) return sections;
-    const q = query.toLowerCase();
-    return sections
-      .map(s => ({
-        ...s,
-        content: s.content.filter(
-          c => c.heading.toLowerCase().includes(q) || c.body.toLowerCase().includes(q)
-        ),
-      }))
-      .filter(s => s.content.length > 0 || s.title.toLowerCase().includes(q));
-  }, [query, sections]);
-
-  const expandAll = () => {
-    setOpenSections(new Set(sections.map(s => s.id)));
-    setOpenItems(new Set(sections.flatMap(s => s.content.map((_, i) => `${s.id}-${i}`))));
-  };
-
-  const toggleSection = (id: string) => {
-    setOpenSections(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
-  };
-
-  const toggleItem = (key: string) => {
-    setOpenItems(prev => { const n = new Set(prev); n.has(key) ? n.delete(key) : n.add(key); return n; });
-  };
-
   return (
     <main className="px-4 py-8 md:py-12 max-w-3xl mx-auto space-y-6">
       <div>
-        <button onClick={() => router.back()} className="text-safety hover:text-yellow-500 font-semibold text-sm">
-          ← Back
-        </button>
+        <BackButton label="← Back" />
       </div>
 
       <div className="space-y-1">
@@ -142,98 +136,69 @@ export default function ReferencePage({
           <AlertTriangle className="text-red-600 flex-shrink-0 mt-0.5" size={20} />
           <div>
             <p className="font-bold text-red-900 text-sm">{criticalAlert.heading}</p>
-            <p className="text-red-800 text-sm mt-1"
-              dangerouslySetInnerHTML={{ __html: mdInline(criticalAlert.body) }} />
+            <p
+              className="text-red-800 text-sm mt-1"
+              dangerouslySetInnerHTML={{ __html: mdInline(criticalAlert.body) }}
+            />
           </div>
         </div>
       )}
 
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-        <input
-          type="search"
-          value={query}
-          onChange={e => { setQuery(e.target.value); if (e.target.value) expandAll(); }}
-          placeholder="Search regulations, procedures, specs…"
-          className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-safety text-sm"
-        />
-      </div>
-
-      {!query && (
-        <div className="flex flex-wrap gap-2">
-          {sections.map(s => (
-            <button
-              key={s.id}
-              onClick={() => { setOpenSections(p => new Set([...p, s.id])); setTimeout(() => document.getElementById(s.id)?.scrollIntoView({ behavior: 'smooth' }), 50); }}
-              className={`text-xs px-3 py-1.5 rounded-full border font-medium transition-colors ${s.critical ? 'border-red-400 text-red-700 bg-red-50 hover:bg-red-100' : 'border-slate-300 text-slate-600 bg-white hover:bg-slate-50'}`}
-            >
-              {s.icon} {s.title}
-            </button>
-          ))}
-        </div>
-      )}
-
+      {/*
+        All sections and item bodies are rendered into the DOM using native
+        <details>/<summary> elements.  This means every word of regulatory prose
+        is in the static HTML and fully crawlable, while the UI still collapses
+        by default so the page doesn't feel overwhelming on first load.
+      */}
       <div className="space-y-4">
-        {filtered.map(section => {
-          const isOpen = openSections.has(section.id);
+        {sections.map(section => {
+          const isDefaultOpen = defaultOpenSections.includes(section.id);
           return (
-            <div key={section.id} id={section.id} className={`rounded-xl border-2 overflow-hidden ${section.color}`}>
-              <button
-                onClick={() => toggleSection(section.id)}
-                className={`w-full flex justify-between items-center px-5 py-4 ${section.headerBg} hover:brightness-95 transition-all`}
+            <details
+              key={section.id}
+              id={section.id}
+              open={isDefaultOpen}
+              className={`rounded-xl border-2 overflow-hidden ${section.color}`}
+            >
+              <summary
+                className={`w-full flex justify-between items-center px-5 py-4 cursor-pointer list-none ${section.headerBg} hover:brightness-95 transition-all`}
               >
                 <div className="flex items-center gap-3">
                   <span className="text-2xl" aria-hidden>{section.icon}</span>
                   <h2 className={`font-bold text-left ${section.critical ? 'text-red-900' : 'text-slate-900'}`}>
                     {section.title}
                     {section.critical && (
-                      <span className="ml-2 text-xs bg-red-600 text-white px-2 py-0.5 rounded-full align-middle">CRITICAL</span>
+                      <span className="ml-2 text-xs bg-red-600 text-white px-2 py-0.5 rounded-full align-middle">
+                        CRITICAL
+                      </span>
                     )}
                   </h2>
                 </div>
-                {isOpen ? <ChevronUp size={20} className="text-slate-600 flex-shrink-0" /> : <ChevronDown size={20} className="text-slate-600 flex-shrink-0" />}
-              </button>
+                {/* CSS-only chevron that flips when open */}
+                <span className="text-slate-600 flex-shrink-0 select-none details-chevron">▼</span>
+              </summary>
 
-              {isOpen && (
-                <div className="divide-y divide-slate-100">
-                  {section.content.map((item, idx) => {
-                    const itemKey = `${section.id}-${idx}`;
-                    const itemOpen = openItems.has(itemKey);
-                    return (
-                      <div key={idx}>
-                        <button
-                          onClick={() => toggleItem(itemKey)}
-                          className="w-full flex justify-between items-center px-5 py-3 bg-white hover:bg-slate-50 transition-colors text-left"
-                        >
-                          <h3 className="font-semibold text-slate-800 text-sm">{item.heading}</h3>
-                          {itemOpen
-                            ? <ChevronUp size={16} className="text-slate-400 flex-shrink-0" />
-                            : <ChevronDown size={16} className="text-slate-400 flex-shrink-0" />}
-                        </button>
-                        {itemOpen && (
-                          <div className="px-5 pb-5 bg-white">
-                            <div className="space-y-1 border-l-4 border-slate-200 pl-4">
-                              {renderBody(item.body)}
-                            </div>
-                          </div>
-                        )}
+              <div className="divide-y divide-slate-100">
+                {section.content.map((item, idx) => (
+                  <details key={idx} className="group/item">
+                    <summary className="w-full flex justify-between items-center px-5 py-3 bg-white hover:bg-slate-50 transition-colors cursor-pointer list-none">
+                      <h3 className="font-semibold text-slate-800 text-sm">{item.heading}</h3>
+                      <span className="text-slate-400 flex-shrink-0 select-none details-chevron text-xs">▼</span>
+                    </summary>
+                    <div className="px-5 pb-5 bg-white">
+                      <div className="space-y-1 border-l-4 border-slate-200 pl-4">
+                        {renderBody(item.body)}
                       </div>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
+                    </div>
+                  </details>
+                ))}
+              </div>
+            </details>
           );
         })}
       </div>
 
-      {filtered.length === 0 && (
-        <div className="text-center py-12 text-slate-500">
-          No results for "<span className="font-semibold">{query}</span>"
-        </div>
-      )}
-
-      {quickFacts && quickFacts.length > 0 && !query && (
+      {quickFacts && quickFacts.length > 0 && (
         <div className="rounded-xl border-2 border-safety bg-yellow-50 p-5 space-y-4">
           <h2 className="font-bold text-slate-900 flex items-center gap-2">
             <Zap size={18} className="text-yellow-600" /> Exam Quick-Reference
@@ -253,7 +218,7 @@ export default function ReferencePage({
       )}
 
       <div className="text-center pt-4">
-        <button onClick={() => router.back()} className="button-secondary">← Return to session</button>
+        <BackButton label="← Return to session" className="button-secondary" />
       </div>
     </main>
   );

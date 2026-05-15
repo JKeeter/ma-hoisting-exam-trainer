@@ -39,6 +39,7 @@
   ],
   "exclude": [
     "node_modules",
+    "infrastructure",
     "**/*.test.ts",
     "**/*.test.tsx",
     "vitest.setup.tsx",

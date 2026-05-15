@@ -3,6 +3,17 @@ import { UserProgress } from './types';
 const PROGRESS_KEY = 'ma-hoisting-trainer:progress';
 const SELECTION_KEY = 'ma-hoisting-trainer:selection';
 
+export function getRawProgress(): UserProgress | null {
+  if (typeof window === 'undefined') return null;
+
+  try {
+    const data = localStorage.getItem(PROGRESS_KEY);
+    return data ? (JSON.parse(data) as UserProgress) : null;
+  } catch {
+    return null;
+  }
+}
+
 export function getProgress(licenseCode: string): UserProgress | null {
   if (typeof window === 'undefined') return null;
 

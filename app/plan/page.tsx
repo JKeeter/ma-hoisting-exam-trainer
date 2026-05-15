@@ -5,12 +5,15 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { curriculum } from '@/lib/curriculum';
 import { generatePlan } from '@/lib/generatePlan';
-import { getProgress, saveProgress, clearProgress, getSelection } from '@/lib/storage';
+import { getProgress, saveProgress, clearProgress, getSelection, saveSelection } from '@/lib/storage';
 import { TrainingPlan, UserProgress } from '@/lib/types';
+import { useAuth } from '@/components/AuthProvider';
+import { SyncBanner } from '@/components/SyncBanner';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
 export default function PlanPage() {
   const router = useRouter();
+  const { latestProgress, triggerCloudSave } = useAuth();
   const [plan, setPlan] = useState<TrainingPlan | null>(null);
   const [progress, setProgress] = useState<UserProgress | null>(null);
   const [expandedWeeks, setExpandedWeeks] = useState<Set<number>>(new Set([1]));
@@ -47,6 +50,17 @@ export default function PlanPage() {
       saveProgress(newProgress);
     }
   }, [router]);
+
+  // When cloud sync completes, update local state and restore selection if needed
+  useEffect(() => {
+    if (!latestProgress) return;
+    setProgress(latestProgress);
+    saveSelection(latestProgress.licenseCode, latestProgress.hoursPerWeek);
+    const restriction = curriculum.find(r => r.code === latestProgress.licenseCode);
+    if (restriction) {
+      setPlan(generatePlan(restriction, latestProgress.hoursPerWeek));
+    }
+  }, [latestProgress]);
 
   if (!plan || !progress) {
     return <div className="p-8 text-center">Loading...</div>;
@@ -85,6 +99,7 @@ export default function PlanPage() {
     };
     setProgress(updatedProgress);
     saveProgress(updatedProgress);
+    triggerCloudSave(updatedProgress);
   };
 
   const handleReset = () => {
@@ -98,6 +113,7 @@ export default function PlanPage() {
     };
     setProgress(newProgress);
     saveProgress(newProgress);
+    triggerCloudSave(newProgress);
     setShowResetDialog(false);
   };
 
@@ -129,6 +145,9 @@ export default function PlanPage() {
             </button>
           </div>
         </div>
+
+        {/* Sync Banner */}
+        <SyncBanner />
 
         {/* Progress Bar */}
         <div className="space-y-2">
@@ -234,6 +253,7 @@ export default function PlanPage() {
           </div>
         </div>
       )}
+
     </main>
   );
 }

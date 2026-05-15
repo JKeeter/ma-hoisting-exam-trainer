@@ -220,15 +220,20 @@ describe('Session detail page logic', () => {
     expect(getProgress('2A/1C')!.completedSessionIds).not.toContain(firstSession.id);
   });
 
-  it('stub session (1A) has no content — "Content coming soon" would render', () => {
-    const stubRestriction = curriculum.find(r => r.code === '1A')!;
-    const stubSession = stubRestriction.modules.flatMap(m => m.sessions).find(s => s.learningObjectives.length === 0)!;
-    expect(stubSession).toBeDefined();
-    const isEmpty = stubSession.learningObjectives.length === 0 &&
-                    stubSession.topics.length === 0 &&
-                    stubSession.resources.length === 0 &&
-                    stubSession.selfCheck.length === 0;
-    expect(isEmpty).toBe(true);
+  it('curriculum has no stub sessions — every session has full content', () => {
+    const stubs = curriculum.flatMap(r =>
+      r.modules.flatMap(m =>
+        m.sessions
+          .filter(s =>
+            s.learningObjectives.length === 0 &&
+            s.topics.length === 0 &&
+            s.resources.length === 0 &&
+            s.selfCheck.length === 0
+          )
+          .map(s => `${r.code} ${s.id}`)
+      )
+    );
+    expect(stubs).toEqual([]);
   });
 
   it('quiz: selecting wrong answer and checking reveals ✗ (correctIndex logic)', () => {

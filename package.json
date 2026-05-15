@@ -9,11 +9,13 @@
     "lint": "next lint",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "deploy": "next build && aws s3 sync out/ s3://jkeeter-masshoist/ --delete && aws cloudfront create-invalidation --distribution-id E3394ATL8LOVLA --paths '/*'"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
     "autoprefixer": "^10.4.19",
+    "aws-amplify": "^6.16.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.439.0",
