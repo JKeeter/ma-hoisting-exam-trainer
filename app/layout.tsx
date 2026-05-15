@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import Script from 'next/script';
 import { AuthProvider } from '@/components/AuthProvider';
 import { CookieBanner } from '@/components/CookieBanner';
+import { LangSwitcher } from '@/components/LangSwitcher';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -30,10 +31,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Link href="/" className="font-bold text-slate-900 hover:text-safety transition-colors">
               Free MA Hoist
             </Link>
-            <nav className="flex gap-4 text-sm text-slate-600">
+            <nav className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-slate-600">
               <Link href="/guide" className="hover:text-safety transition-colors">Licensing Guide</Link>
               <Link href="/hand-signals" className="hover:text-safety transition-colors">Hand Signals</Link>
               <Link href="/about" className="hover:text-safety transition-colors">About</Link>
+              <LangSwitcher />
             </nav>
           </div>
         </header>
