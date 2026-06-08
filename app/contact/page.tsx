@@ -33,10 +33,10 @@ export default function ContactPage() {
           </p>
           <p className="text-lg">
             <a
-              href="mailto:contact@freemasshoist.com"
+              href="mailto:admin@freemasshoist.com"
               className="text-safety hover:text-yellow-500 font-semibold underline"
             >
-              contact@freemasshoist.com
+              admin@freemasshoist.com
             </a>
           </p>
         </section>

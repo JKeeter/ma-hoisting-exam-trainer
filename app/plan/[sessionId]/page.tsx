@@ -203,10 +203,12 @@ export default function SessionDetailPage({
           Self-Check Quiz questions and explanations are server-rendered below
           for full crawlability. The explanations live in <details> so they are
           in the DOM but visually collapsed until the user reveals them.
-          The interactive "Check Answer" highlighting is handled by SessionDetailClient.
+          When the visitor's saved plan matches this lesson's class, the client
+          island (SessionDetailClient) hides this static block and renders an
+          interactive version in its place — so only one quiz is ever visible.
         */}
         {session.selfCheck.length > 0 && (
-          <section className="space-y-4">
+          <section id="static-self-check" className="space-y-4">
             <h2 className="text-xl font-bold text-slate-900">Self-Check Questions</h2>
             <div className="space-y-6">
               {session.selfCheck.map((question, qIdx) => (

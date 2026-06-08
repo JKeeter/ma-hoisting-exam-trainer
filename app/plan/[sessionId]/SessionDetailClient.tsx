@@ -123,8 +123,14 @@ export default function SessionDetailClient({ sessionId }: { sessionId: string }
       .flatMap(m => m.sessions);
 
     const session = sessions.find(s => s.id === sessionId);
-    if (session) {
+    if (session && session.selfCheck.length > 0) {
       setQuestions(session.selfCheck);
+      // The visitor's saved plan matches this lesson's class, so we render the
+      // interactive quiz below. Hide the server-rendered static quiz to avoid
+      // showing two copies. (Crawlers and non-matching visitors keep the static
+      // one, which is always in the server HTML.)
+      const staticQuiz = document.getElementById('static-self-check');
+      if (staticQuiz) staticQuiz.style.display = 'none';
     }
 
     const savedProgress = getProgress(selection.licenseCode);
