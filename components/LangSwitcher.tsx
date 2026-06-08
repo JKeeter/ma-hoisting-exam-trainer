@@ -57,6 +57,7 @@ export function LangSwitcher() {
       <span className="text-slate-300" aria-hidden>|</span>
       <a
         href={esHref}
+        rel="nofollow"
         className={`px-2 py-1 rounded transition-colors ${
           isTranslated
             ? 'bg-safety text-slate-900 font-semibold'

@@ -1,11 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import { curriculum } from '@/lib/curriculum';
 import { getProgress, saveProgress, getSelection } from '@/lib/storage';
-import { Session, SelfCheckQuestion, UserProgress } from '@/lib/types';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { SelfCheckQuestion, UserProgress } from '@/lib/types';
 
 /** Interactive quiz rendered client-side so answer state and highlights work. */
 function QuizSection({ questions }: { questions: SelfCheckQuestion[] }) {
@@ -110,28 +108,22 @@ function QuizSection({ questions }: { questions: SelfCheckQuestion[] }) {
 /** Client island: handles quiz interactivity, "Mark Complete" button, and prev/next nav. */
 export default function SessionDetailClient({ sessionId }: { sessionId: string }) {
   const [progress, setProgress] = useState<UserProgress | null>(null);
-  const [prevSession, setPrevSession] = useState<Session | null>(null);
-  const [nextSession, setNextSession] = useState<Session | null>(null);
   const [questions, setQuestions] = useState<SelfCheckQuestion[]>([]);
   const [isCompleted, setIsCompleted] = useState(false);
-  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const selection = getSelection();
-    if (!selection) { setLoaded(true); return; }
+    if (!selection) return;
 
     const restriction = curriculum.find(r => r.code === selection.licenseCode);
-    if (!restriction) { setLoaded(true); return; }
+    if (!restriction) return;
 
     const sessions = restriction.modules
       .sort((a, b) => a.orderInCourse - b.orderInCourse)
       .flatMap(m => m.sessions);
 
-    const idx = sessions.findIndex(s => s.id === sessionId);
-    if (idx !== -1) {
-      const session = sessions[idx];
-      setPrevSession(idx > 0 ? sessions[idx - 1] : null);
-      setNextSession(idx < sessions.length - 1 ? sessions[idx + 1] : null);
+    const session = sessions.find(s => s.id === sessionId);
+    if (session) {
       setQuestions(session.selfCheck);
     }
 
@@ -140,7 +132,6 @@ export default function SessionDetailClient({ sessionId }: { sessionId: string }
       setProgress(savedProgress);
       setIsCompleted(savedProgress.completedSessionIds.includes(sessionId));
     }
-    setLoaded(true);
   }, [sessionId]);
 
   const toggleComplete = () => {
@@ -167,8 +158,8 @@ export default function SessionDetailClient({ sessionId }: { sessionId: string }
       {questions.length > 0 && <QuizSection questions={questions} />}
 
       {/* Session Actions */}
-      <div className="space-y-4">
-        {progress !== null && (
+      {progress !== null && (
+        <div className="space-y-4">
           <button
             onClick={toggleComplete}
             className={`w-full py-3 rounded-lg font-semibold transition-colors ${
@@ -179,36 +170,8 @@ export default function SessionDetailClient({ sessionId }: { sessionId: string }
           >
             {isCompleted ? '✓ Session Completed' : 'Mark Session Complete'}
           </button>
-        )}
-
-        {/* Navigation — visible once client loads; server-rendered fallback in parent */}
-        {loaded && (
-          <div className="flex gap-3 justify-between">
-            {prevSession ? (
-              <Link
-                href={`/plan/${prevSession.id}`}
-                className="flex items-center gap-2 button-secondary"
-              >
-                <ChevronLeft size={18} />
-                Previous
-              </Link>
-            ) : (
-              <div></div>
-            )}
-            {nextSession ? (
-              <Link
-                href={`/plan/${nextSession.id}`}
-                className="flex items-center gap-2 button-secondary"
-              >
-                Next
-                <ChevronRight size={18} />
-              </Link>
-            ) : (
-              <div></div>
-            )}
-          </div>
-        )}
-      </div>
+        </div>
+      )}
     </>
   );
 }

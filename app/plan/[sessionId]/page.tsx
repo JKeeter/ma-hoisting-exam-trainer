@@ -1,8 +1,9 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
 import { curriculum } from '@/lib/curriculum';
-import { Session } from '@/lib/types';
+import { Session, LicenseRestriction } from '@/lib/types';
+import { hasReferencePage } from '@/lib/reference-content/ids';
 import SessionDetailClient from './SessionDetailClient';
 
 export function generateStaticParams() {
@@ -25,6 +26,36 @@ function findSession(sessionId: string): Session | null {
   return null;
 }
 
+type SessionContext = {
+  restriction: LicenseRestriction;
+  session: Session;
+  prev: Session | null;
+  next: Session | null;
+};
+
+/**
+ * Locate a session within its OWN restriction class and compute the previous /
+ * next session in course order. Used to render real, crawlable prev/next links
+ * server-side (the client island can't, since a crawler has no localStorage).
+ */
+function findSessionContext(sessionId: string): SessionContext | null {
+  for (const restriction of curriculum) {
+    const sessions = [...restriction.modules]
+      .sort((a, b) => a.orderInCourse - b.orderInCourse)
+      .flatMap(m => m.sessions);
+    const idx = sessions.findIndex(s => s.id === sessionId);
+    if (idx !== -1) {
+      return {
+        restriction,
+        session: sessions[idx],
+        prev: idx > 0 ? sessions[idx - 1] : null,
+        next: idx < sessions.length - 1 ? sessions[idx + 1] : null,
+      };
+    }
+  }
+  return null;
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -41,6 +72,7 @@ export async function generateMetadata({
   return {
     title: `${session.title} | MA Hoisting License Trainer`,
     description,
+    alternates: { canonical: `/plan/${params.sessionId}` },
   };
 }
 
@@ -49,24 +81,30 @@ export default function SessionDetailPage({
 }: {
   params: { sessionId: string };
 }) {
-  const session = findSession(params.sessionId);
+  const ctx = findSessionContext(params.sessionId);
 
-  if (!session) {
+  if (!ctx) {
     return (
       <main className="px-4 py-12 max-w-2xl mx-auto text-center space-y-4">
         <h1 className="text-2xl font-bold text-slate-900">Session Not Found</h1>
-        <Link href="/plan" className="button-secondary inline-block">← Back to Plan</Link>
+        <Link href="/lessons" className="button-secondary inline-block">Browse all lessons</Link>
       </main>
     );
   }
+
+  const { session, restriction, prev, next } = ctx;
+  const referenceAvailable = hasReferencePage(session.id);
 
   return (
     <main className="px-4 py-8 md:py-12">
       <div className="content-max mx-auto space-y-8">
         {/* Navigation */}
-        <div className="flex justify-between items-center">
+        <div className="flex flex-wrap justify-between items-center gap-2 text-sm">
           <Link href="/plan" className="text-safety hover:text-yellow-500 font-semibold">
             ← Back to Plan
+          </Link>
+          <Link href="/lessons" className="text-slate-500 hover:text-safety font-semibold">
+            All lessons ({restriction.code})
           </Link>
         </div>
 
@@ -213,8 +251,55 @@ export default function SessionDetailPage({
           </section>
         )}
 
-        {/* Interactive client island: "Mark Complete" + prev/next nav */}
+        {/* Interactive client island: quiz highlighting + "Mark Complete" */}
         <SessionDetailClient sessionId={params.sessionId} />
+
+        {/* Related in-app reference — server-rendered, crawlable */}
+        {referenceAvailable && (
+          <div className="card p-4 border border-slate-200 bg-slate-50">
+            <Link
+              href={`/reference/${session.id}`}
+              className="font-semibold text-safety hover:text-yellow-500"
+            >
+              In-depth reference for this session →
+            </Link>
+            <p className="text-sm text-slate-600 mt-1">
+              A deeper, regulation-by-regulation companion page for this lesson.
+            </p>
+          </div>
+        )}
+
+        {/* Prev / next navigation — server-rendered so it is crawlable */}
+        <nav className="flex flex-wrap gap-3 justify-between border-t border-slate-200 pt-6">
+          {prev ? (
+            <Link
+              href={`/plan/${prev.id}`}
+              className="flex items-center gap-2 button-secondary max-w-[48%]"
+            >
+              <ChevronLeft size={18} className="flex-shrink-0" />
+              <span className="truncate">{prev.title}</span>
+            </Link>
+          ) : (
+            <span />
+          )}
+          {next ? (
+            <Link
+              href={`/plan/${next.id}`}
+              className="flex items-center gap-2 button-secondary max-w-[48%] text-right"
+            >
+              <span className="truncate">{next.title}</span>
+              <ChevronRight size={18} className="flex-shrink-0" />
+            </Link>
+          ) : (
+            <span />
+          )}
+        </nav>
+
+        <div className="text-center">
+          <Link href="/lessons" className="text-sm text-slate-500 hover:text-safety font-semibold">
+            ← Browse all {restriction.code} lessons and reference pages
+          </Link>
+        </div>
       </div>
     </main>
   );

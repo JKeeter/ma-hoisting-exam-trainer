@@ -40,12 +40,12 @@ export function CookieBanner() {
           progress tracking without an account. We also serve advertising that may set its own
           cookies. By continuing to use Free MA Hoist, you accept this. See our{' '}
           <Link
-            href="/about"
+            href="/privacy"
             className="underline text-safety hover:text-yellow-400 transition-colors"
           >
-            About / Privacy
+            Privacy Policy
           </Link>{' '}
-          page for details.
+          for details.
         </p>
         <button
           onClick={accept}

@@ -374,7 +374,7 @@ export const restriction_2a: LicenseRestriction = {
           resources: [
             {
               label: 'Excavator Component Reference — Anatomy, Hydraulics & Inspection',
-              url: '/reference/excavator-anatomy',
+              url: '/reference/2a-m2-s1',
               type: 'reference',
               required: true,
             },

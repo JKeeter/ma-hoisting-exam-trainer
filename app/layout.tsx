@@ -10,6 +10,7 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.freemasshoist.com'),
   title: 'MA Hoisting Exam Trainer',
   description: 'Personalized study plan for Massachusetts hoisting engineer license',
 };
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               Free MA Hoist
             </Link>
             <nav className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-slate-600">
+              <Link href="/lessons" className="hover:text-safety transition-colors">All Lessons</Link>
               <Link href="/guide" className="hover:text-safety transition-colors">Licensing Guide</Link>
               <Link href="/hand-signals" className="hover:text-safety transition-colors">Hand Signals</Link>
               <Link href="/about" className="hover:text-safety transition-colors">About</Link>
@@ -48,9 +50,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="max-w-2xl mx-auto text-center text-sm text-slate-600 space-y-2">
             <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs pb-2 border-b border-slate-200 mb-2">
               <Link href="/" className="hover:text-safety transition-colors">Home</Link>
+              <Link href="/lessons" className="hover:text-safety transition-colors">All Lessons</Link>
               <Link href="/guide" className="hover:text-safety transition-colors">Licensing Guide</Link>
               <Link href="/hand-signals" className="hover:text-safety transition-colors">Hand Signals</Link>
               <Link href="/about" className="hover:text-safety transition-colors">About / FAQ</Link>
+              <Link href="/privacy" className="hover:text-safety transition-colors">Privacy</Link>
+              <Link href="/contact" className="hover:text-safety transition-colors">Contact</Link>
             </div>
             <p className="text-xs">Unofficial study aid. Not affiliated with the MA Office of Public Safety and Inspections (OPSI).</p>
             <p className="text-xs">Always verify regulatory requirements against the current 230 CMR 6.00 and MGL Chapter 146 on mass.gov.</p>

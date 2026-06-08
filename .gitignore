@@ -42,3 +42,4 @@ infrastructure/cdk.out/
 
 # claude code local state
 .claude/
+.playwright-mcp/

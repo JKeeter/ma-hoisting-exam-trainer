@@ -1,20 +1,12 @@
 import { Metadata } from 'next';
 import ReferencePage from '@/components/ReferencePage';
 import { getReferenceContent } from '@/lib/reference-content/index';
+import { referenceSessionIds } from '@/lib/reference-content/ids';
 import Link from 'next/link';
 
 // Pre-generate all known reference pages at build time
 export function generateStaticParams() {
-  return [
-    '2a-m1-s1', '2a-m1-s2', '2a-m1-s3',
-    '2a-m2-s1', '2a-m2-s2', '2a-m2-s3',
-    '2a-m3-s1', '2a-m3-s2', '2a-m3-s3',
-    '2a-m4-s1', '2a-m4-s2', '2a-m4-s3',
-    '2a1c-m1-s1', '2a1c-m1-s2', '2a1c-m1-s3',
-    '2a1c-m2-s1', '2a1c-m2-s2', '2a1c-m2-s3',
-    '2a1c-m3-s1', '2a1c-m3-s2', '2a1c-m3-s3',
-    '2a1c-m4-s1', '2a1c-m4-s2', '2a1c-m4-s3',
-  ].map(sessionId => ({ sessionId }));
+  return referenceSessionIds.map(sessionId => ({ sessionId }));
 }
 
 export async function generateMetadata({
@@ -32,6 +24,7 @@ export async function generateMetadata({
   return {
     title: `${content.title} | MA Hoisting License Trainer`,
     description,
+    alternates: { canonical: `/reference/${params.sessionId}` },
   };
 }
 
@@ -50,10 +43,28 @@ export default function ReferenceSessionPage({
           No reference content found for session{' '}
           <code className="bg-slate-100 px-2 py-1 rounded">{params.sessionId}</code>.
         </p>
-        <Link href="/plan" className="button-secondary inline-block">← Back to Plan</Link>
+        <Link href="/lessons" className="button-secondary inline-block">Browse all lessons</Link>
       </main>
     );
   }
 
-  return <ReferencePage {...content} />;
+  return (
+    <>
+      <ReferencePage {...content} />
+      {/* Server-rendered, crawlable navigation so reference pages aren't dead-ends */}
+      <div className="px-4 pb-12 max-w-3xl mx-auto">
+        <nav className="border-t border-slate-200 pt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+          <Link
+            href={`/plan/${params.sessionId}`}
+            className="text-safety hover:text-yellow-500 font-semibold"
+          >
+            ← Lesson for this reference
+          </Link>
+          <Link href="/lessons" className="text-slate-500 hover:text-safety font-semibold">
+            All lessons &amp; reference pages
+          </Link>
+        </nav>
+      </div>
+    </>
+  );
 }

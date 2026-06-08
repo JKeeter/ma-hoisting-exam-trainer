@@ -99,38 +99,23 @@ export default function LandingPage() {
           </p>
         </div>
 
-        {/* Beta / personal-project notice */}
-        <div className="card p-5 border-2 border-safety/40 bg-yellow-50">
-          <div className="flex items-start gap-3">
-            <span className="text-2xl flex-shrink-0" aria-hidden>🚧</span>
-            <div className="space-y-2 min-w-0">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="text-xs font-bold uppercase tracking-wide bg-safety text-slate-900 px-2 py-0.5 rounded">
-                  Beta
-                </span>
-                <span className="text-sm font-semibold text-slate-900">
-                  A personal project, now open to everyone
-                </span>
-              </div>
-              <p className="text-sm text-slate-700 leading-relaxed">
-                I originally built this for myself while studying for my own Massachusetts hoisting
-                exam, and figured it might be useful to other people in the same boat — so I made it
-                free and open to anyone. This is <strong>not an official site</strong> and not
-                affiliated with OPSI or the Commonwealth in any way. It is, at best, perhaps a
-                useful study tool. <strong>No guarantees of accuracy</strong> — always verify
-                regulatory specifics against{' '}
-                <a
-                  href="https://www.mass.gov/hoisting-licensing-and-exams"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-safety hover:text-yellow-500 font-semibold underline"
-                >
-                  mass.gov
-                </a>{' '}
-                before relying on anything you read here.
-              </p>
-            </div>
-          </div>
+        {/* Independent-project notice */}
+        <div className="card p-5 border border-slate-200 bg-slate-50">
+          <p className="text-sm text-slate-700 leading-relaxed">
+            <strong>Free MA Hoist is an independent study tool</strong> — it is not an official site
+            and is not affiliated with OPSI or the Commonwealth. The lessons are built from the
+            public Massachusetts statutes and regulations and relevant OSHA and ASME standards, but
+            they are a study aid, not legal advice. Always confirm current requirements on{' '}
+            <a
+              href="https://www.mass.gov/hoisting-licensing-and-exams"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-safety hover:text-yellow-500 font-semibold underline"
+            >
+              mass.gov
+            </a>
+            .
+          </p>
         </div>
 
         {/* About this site */}
@@ -187,8 +172,19 @@ export default function LandingPage() {
             </a>{' '}
             before relying on anything you read here.
           </p>
+          <p className="text-slate-700 leading-relaxed">
+            Prefer to read at your own pace? You can{' '}
+            <Link href="/lessons" className="text-safety hover:text-yellow-500 font-semibold underline">
+              browse the full lesson library
+            </Link>{' '}
+            — every class, module, lesson, and reference page in one place, no plan required.
+          </p>
           <p className="text-sm text-slate-600">
             →{' '}
+            <Link href="/lessons" className="text-safety hover:text-yellow-500 font-semibold underline">
+              All lessons
+            </Link>
+            {' '}·{' '}
             <Link href="/guide" className="text-safety hover:text-yellow-500 font-semibold underline">
               Full licensing guide
             </Link>

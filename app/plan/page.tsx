@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { curriculum } from '@/lib/curriculum';
+import LessonsDirectory from '@/components/LessonsDirectory';
 import { generatePlan } from '@/lib/generatePlan';
 import { getProgress, saveProgress, clearProgress, getSelection, saveSelection } from '@/lib/storage';
 import { TrainingPlan, UserProgress } from '@/lib/types';
@@ -12,7 +12,6 @@ import { SyncBanner } from '@/components/SyncBanner';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
 export default function PlanPage() {
-  const router = useRouter();
   const { latestProgress, triggerCloudSave } = useAuth();
   const [plan, setPlan] = useState<TrainingPlan | null>(null);
   const [progress, setProgress] = useState<UserProgress | null>(null);
@@ -21,14 +20,15 @@ export default function PlanPage() {
 
   useEffect(() => {
     const selection = getSelection();
+    // No saved selection (e.g. a first-time visitor or a search engine crawler):
+    // leave `plan` null so the lessons directory fallback renders instead of
+    // redirecting away — keeps the page crawlable and useful with no plan yet.
     if (!selection) {
-      router.push('/');
       return;
     }
 
     const restriction = curriculum.find(r => r.code === selection.licenseCode);
     if (!restriction) {
-      router.push('/');
       return;
     }
 
@@ -49,7 +49,7 @@ export default function PlanPage() {
       setProgress(newProgress);
       saveProgress(newProgress);
     }
-  }, [router]);
+  }, []);
 
   // When cloud sync completes, update local state and restore selection if needed
   useEffect(() => {
@@ -62,8 +62,31 @@ export default function PlanPage() {
     }
   }, [latestProgress]);
 
+  // No active plan (no saved selection yet, or a crawler with no localStorage):
+  // show the full, crawlable lessons directory plus a prompt to build a plan,
+  // instead of redirecting. This is what search engines see at /plan.
   if (!plan || !progress) {
-    return <div className="p-8 text-center">Loading...</div>;
+    return (
+      <main className="px-4 py-8 md:py-12">
+        <div className="content-max mx-auto space-y-8">
+          <div className="card p-6 space-y-3 bg-slate-50 border border-slate-200">
+            <h1 className="text-2xl md:text-3xl font-bold text-slate-900">Your study plan</h1>
+            <p className="text-slate-700 leading-relaxed">
+              You don&rsquo;t have an active study plan on this device yet.{' '}
+              <Link href="/" className="text-safety hover:text-yellow-500 font-semibold underline">
+                Generate a personalized week-by-week plan
+              </Link>{' '}
+              for your license class and study hours — or browse every lesson directly below.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            <h2 className="text-2xl font-bold text-slate-900">All lessons &amp; reference pages</h2>
+            <LessonsDirectory headingLevel="h3" />
+          </div>
+        </div>
+      </main>
+    );
   }
 
   const restriction = curriculum.find(r => r.code === plan.licenseCode);
